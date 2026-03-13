@@ -8,7 +8,12 @@ struct Rotation {
     passed_zero: u16,
 }
 
-pub fn run(input: String, start_position: u16) -> u16 {
+pub struct DayResult {
+    pub landed_on_zero: u16,
+    pub passed_zero: u16,
+}
+
+pub fn run(input: String, start_position: u16) -> DayResult {
     let mut landed_on_zero: u16 = 0;
     let mut passed_zero: u16 = 0;
     let mut position = start_position;
@@ -22,7 +27,10 @@ pub fn run(input: String, start_position: u16) -> u16 {
             Ok(result) => result,
             Err(error) => {
                 println!("Could not parse {} as i16. Error: {}", line, error);
-                return 0;
+                return DayResult {
+                    landed_on_zero: 0,
+                    passed_zero: 0,
+                };
             }
         };
 
@@ -47,13 +55,10 @@ pub fn run(input: String, start_position: u16) -> u16 {
         position = rotation.new_position;
     }
 
-    println!(
-        "day one! Landed on zero {} times, passed zero {} times. Total {}",
-        landed_on_zero,
-        passed_zero,
-        landed_on_zero + passed_zero
-    );
-    return landed_on_zero + passed_zero;
+    return DayResult {
+        landed_on_zero: landed_on_zero,
+        passed_zero: passed_zero,
+    };
 }
 
 fn to_signed_int(rotation: String) -> Result<i16, ParseIntError> {
@@ -106,7 +111,7 @@ mod tests {
     #[test]
     fn run_with_one_line_returns_one() {
         let result = run("L50".to_string(), 50);
-        assert_eq!(1, result);
+        assert_eq!(1, result.landed_on_zero);
     }
 
     #[test]
@@ -125,7 +130,7 @@ L82"
             .to_string(),
             50,
         );
-        assert_eq!(6, result);
+        assert_eq!(6, result.landed_on_zero + result.passed_zero);
     }
 
     #[test]
