@@ -23,19 +23,6 @@ pub fn run(input: &String) -> DayResult {
     return result;
 }
 
-// pub fn run_extra(input: &String) -> DayResult {
-//     let mut result: DayResult = DayResult { sum: 0 };
-
-//     let ranges: Vec<&str> = input.split(",").collect();
-//     for range in ranges {
-//         let r = parse_range(range);
-//         let range_result = check_range_extra(r);
-//         result.sum += range_result;
-//     }
-
-//     return result;
-// }
-
 fn parse_range(range_as_string: &str) -> Range<u64> {
     let r: Vec<&str> = range_as_string.split("-").collect();
     let start = r[0]
